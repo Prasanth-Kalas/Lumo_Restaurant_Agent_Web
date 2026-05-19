@@ -22,6 +22,7 @@ const BodySchema = z
       .regex(/^\d{4}-\d{2}-\d{2}$/, { message: "ISO date (YYYY-MM-DD)" })
       .optional(),
     cuisines: z.array(z.string().min(1)).max(8).optional(),
+    limit: z.number().int().min(1).max(6).optional(),
   })
   .strict();
 

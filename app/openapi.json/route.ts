@@ -240,6 +240,13 @@ export async function GET() {
               maxItems: 8,
               description: "Optional cuisine shortlist to narrow by.",
             },
+            limit: {
+              type: "integer",
+              minimum: 1,
+              maximum: 6,
+              description:
+                "Optional maximum number of restaurants to return. Defaults to 6.",
+            },
           },
         },
 

@@ -90,6 +90,8 @@ export interface SearchParams {
   date?: string;
   /** Optional shortlist of cuisines to narrow to. */
   cuisines?: string[];
+  /** Optional maximum number of restaurants to return. */
+  limit?: number;
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -255,13 +257,15 @@ export function searchRestaurants(params: SearchParams): Restaurant[] {
   const q = params.query?.trim().toLowerCase() ?? "";
   const cuisines = params.cuisines?.map((c) => c.toLowerCase()) ?? [];
 
+  const limit = Math.max(1, Math.min(6, Math.trunc(params.limit ?? 6)));
+
   return CATALOG.filter((r) => {
     if (r.city.toLowerCase() !== city) return false;
     if (cuisines.length && !cuisines.includes(r.cuisine.toLowerCase())) return false;
     if (!q) return true;
     const hay = `${r.name} ${r.cuisine} ${r.neighborhood} ${r.blurb}`.toLowerCase();
     return hay.includes(q);
-  }).slice(0, 6); // top 6 is plenty for a chat card
+  }).slice(0, limit); // top 6 is plenty for a chat card
 }
 
 export function getRestaurant(restaurant_id: string): Restaurant | null {
