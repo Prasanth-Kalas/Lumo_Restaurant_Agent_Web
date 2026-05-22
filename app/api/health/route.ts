@@ -6,14 +6,14 @@
  * this cheap. Never hit OpenTable from here on the happy path; only
  * report cached upstream status.
  *
- * Status conventions (defined in @lumo/agent-sdk/health):
+ * Status conventions (defined in @orchet/agent-sdk/health):
  *   - "ok"       → HTTP 200, all upstreams healthy, within SLA
  *   - "degraded" → HTTP 200, we can serve but something is wobbly
  *                  (e.g. OpenTable latency elevated, partner quota low)
  *   - "down"     → HTTP 503, we cannot serve; circuit breaker opens
  */
 
-import { healthResponse } from "@lumo/agent-sdk";
+import { healthResponse } from "@orchet/agent-sdk";
 
 export const dynamic = "force-dynamic";
 

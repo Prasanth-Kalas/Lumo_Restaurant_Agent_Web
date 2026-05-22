@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   // Let Next compile the SDK's TypeScript sources directly in dev so we don't
   // need to rebuild the SDK on every change.
-  transpilePackages: ["@lumo/agent-sdk"],
+  transpilePackages: ["@orchet/agent-sdk"],
   async headers() {
     return [
       {

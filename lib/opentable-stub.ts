@@ -25,7 +25,7 @@
  * stay untouched. Same pattern as Flight Agent → Duffel.
  */
 
-import { hashSummary } from "@lumo/agent-sdk";
+import { hashSummary } from "@orchet/agent-sdk";
 import { randomBytes } from "node:crypto";
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -456,7 +456,7 @@ export function getStoredReservation(reservation_id: string): Reservation | null
 // ──────────────────────────────────────────────────────────────────────────
 // Reservation cancel
 //
-// Contract (matches `x-lumo-cancel-for: restaurant_create_reservation` in
+// Contract (matches `x-orchet-cancel-for: restaurant_create_reservation` in
 // openapi.json):
 //   - cost-tier: free  (no money moves at the agent/tool layer; any
 //     deposit refund is provider-side and we surface the amount)

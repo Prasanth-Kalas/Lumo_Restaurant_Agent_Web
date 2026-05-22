@@ -4,7 +4,7 @@
  * CANCEL TOOL (compensating action for restaurant_create_reservation).
  *
  * Invariants the shell's SDK validates at registry load (see
- * @lumo/agent-sdk/openapi validateCancellationProtocol):
+ * @orchet/agent-sdk/openapi validateCancellationProtocol):
  *
  *   - cost-tier: "free"                  — no net money movement the
  *                                          orchestrator pays for; the
@@ -15,10 +15,10 @@
  *                                          human in the loop. Gating on
  *                                          user confirmation here would
  *                                          deadlock the rollback.
- *   - x-lumo-cancel-for: restaurant_create_reservation
+ *   - x-orchet-cancel-for: restaurant_create_reservation
  *                                        — bidirectional link; the
  *                                          forward money tool sets
- *                                          x-lumo-cancels to point here.
+ *                                          x-orchet-cancels to point here.
  *   - compensation-kind: best-effort     — inside-window cancellations
  *                                          may have a non-refundable
  *                                          deposit; we still flip the

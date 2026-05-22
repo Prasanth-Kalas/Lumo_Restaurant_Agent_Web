@@ -11,7 +11,7 @@
  * same fallback chain with app/openapi.json/route.ts.
  */
 
-import { defineManifest, type AgentManifest } from "@lumo/agent-sdk";
+import { defineManifest, type AgentManifest } from "@orchet/agent-sdk";
 import { publicBaseUrl } from "./public-base-url";
 
 /**
@@ -64,7 +64,7 @@ export function buildManifest(): AgentManifest {
     },
 
     // PII scope — the absolute max this agent may *ever* see. The router
-    // intersects this with the per-tool `x-lumo-pii-required` so each
+    // intersects this with the per-tool `x-orchet-pii-required` so each
     // tool only gets what it strictly needs. Reservations are typically
     // name + email + phone; `payment_method_id` is only needed for
     // deposit-required (price-tier 4) slots.
@@ -84,7 +84,7 @@ export function buildManifest(): AgentManifest {
     // is wired from day one; the SDK's openapi bridge enforces the
     // bidirectional link between create + cancel at registry load.
     capabilities: {
-      sdk_version: "0.2.0-rc.2",
+      sdk_version: "0.6.0",
       supports_compound_bookings: true,
       implements_cancellation: true,
     },

@@ -2,7 +2,7 @@
  * GET /openapi.json
  *
  * OpenAPI 3.1 document for the Restaurant Agent. Four operations are
- * exposed as orchestrator tools via `x-lumo-tool: true`:
+ * exposed as orchestrator tools via `x-orchet-tool: true`:
  *
  *   1. restaurant_search_restaurants — read, cheap, no PII
  *   2. restaurant_check_availability — read, cheap, no PII; returns N
@@ -13,9 +13,9 @@
  *                                      (`structured-reservation`) + PII.
  *   4. restaurant_cancel_reservation — Saga rollback counterpart for #3.
  *
- * The `x-lumo-*` extensions are what the shell's orchestrator reads to
+ * The `x-orchet-*` extensions are what the shell's orchestrator reads to
  * build the Claude tool list and the router's gating table. See
- * `@lumo/agent-sdk/openapi` for the full extension contract.
+ * `@orchet/agent-sdk/openapi` for the full extension contract.
  *
  * Shape of the restaurant/slot/reservation objects mirrors what we
  * expect from the OpenTable Affiliate Booking API so that swapping the
@@ -52,11 +52,11 @@ export async function GET() {
           description:
             "Return up to 6 restaurants matching city + optional query/cuisine filters. No PII required. Results are NOT reservations — the LLM must call restaurant_check_availability on a specific restaurant_id before booking.",
 
-          "x-lumo-tool": true,
-          "x-lumo-cost-tier": "free",
-          "x-lumo-requires-confirmation": false,
-          "x-lumo-pii-required": [],
-          "x-lumo-intent-tags": ["search_restaurants"],
+          "x-orchet-tool": true,
+          "x-orchet-cost-tier": "free",
+          "x-orchet-requires-confirmation": false,
+          "x-orchet-pii-required": [],
+          "x-orchet-intent-tags": ["search_restaurants"],
 
           requestBody: {
             required: true,
@@ -88,11 +88,11 @@ export async function GET() {
           description:
             "Given a restaurant_id, date, and party size, return candidate time slots. Each slot carries an opaque `slot_id` the LLM must hand to restaurant_create_reservation. Slots TTL in 15 minutes — after that, the shell must re-call this tool.",
 
-          "x-lumo-tool": true,
-          "x-lumo-cost-tier": "low",
-          "x-lumo-requires-confirmation": false,
-          "x-lumo-pii-required": [],
-          "x-lumo-intent-tags": ["check_availability"],
+          "x-orchet-tool": true,
+          "x-orchet-cost-tier": "low",
+          "x-orchet-requires-confirmation": false,
+          "x-orchet-pii-required": [],
+          "x-orchet-intent-tags": ["check_availability"],
 
           requestBody: {
             required: true,
@@ -124,18 +124,18 @@ export async function GET() {
           description:
             "Books a table for the given slot_id. This is a money tool: high-end restaurants (price_tier 4) charge a deposit. The orchestrator MUST have the user's explicit confirmation of the reservation summary before calling. The request body must include `summary_hash` (sha256 of the reservation the user confirmed) and `user_confirmed: true`. If the hash doesn't match the server-computed hash, we return 409 and the shell must re-confirm.",
 
-          "x-lumo-tool": true,
-          "x-lumo-cost-tier": "money",
-          "x-lumo-requires-confirmation": "structured-reservation",
+          "x-orchet-tool": true,
+          "x-orchet-cost-tier": "money",
+          "x-orchet-requires-confirmation": "structured-reservation",
           // Every money tool must declare its cancel counterpart. The
           // SDK's openApiToClaudeTools refuses to build the bridge if
           // this points at a non-existent op or is missing entirely.
-          "x-lumo-cancels": "restaurant_cancel_reservation",
+          "x-orchet-cancels": "restaurant_cancel_reservation",
           // Intersection with the agent's `pii_scope` determines what
           // the router actually forwards. `payment_method_id` is only
           // needed for slots that carry a deposit (price-tier 4).
-          "x-lumo-pii-required": ["name", "email", "phone"],
-          "x-lumo-intent-tags": ["create_reservation"],
+          "x-orchet-pii-required": ["name", "email", "phone"],
+          "x-orchet-intent-tags": ["create_reservation"],
 
           requestBody: {
             required: true,
@@ -169,19 +169,19 @@ export async function GET() {
           description:
             "Cancel a reservation created by `restaurant_create_reservation`. This is the compensating action the Saga invokes during compound-booking rollback — it must NOT re-prompt the user. Idempotent: a repeat call with the same reservation_id returns 200 with `already_cancelled: true` instead of double-processing. For inside-window cancellations the deposit refund may be '0.00' — the tool is `compensation-kind: best-effort`, not `perfect`.",
 
-          "x-lumo-tool": true,
-          "x-lumo-cost-tier": "free",
+          "x-orchet-tool": true,
+          "x-orchet-cost-tier": "free",
           // MUST be literal false. The SDK's cancellation-protocol
           // validator rejects any cancel tool that would gate on
           // confirmation — the Saga has no user in the loop.
-          "x-lumo-requires-confirmation": false,
+          "x-orchet-requires-confirmation": false,
           // Bidirectional link back to the forward money tool. Both
           // pointers must be present and agree; the SDK validator
           // rejects a one-sided link at registry boot.
-          "x-lumo-cancel-for": "restaurant_create_reservation",
-          "x-lumo-compensation-kind": "best-effort",
-          "x-lumo-pii-required": [],
-          "x-lumo-intent-tags": ["cancel_reservation"],
+          "x-orchet-cancel-for": "restaurant_create_reservation",
+          "x-orchet-compensation-kind": "best-effort",
+          "x-orchet-pii-required": [],
+          "x-orchet-intent-tags": ["cancel_reservation"],
 
           requestBody: {
             required: true,

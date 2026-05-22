@@ -1,7 +1,7 @@
 # Lumo Restaurant Agent
 
 OpenTable-style reservation search, availability, and booking. Speaks
-the `@lumo/agent-sdk` contract so the Lumo shell can discover and
+the `@orchet/agent-sdk` contract so the Lumo shell can discover and
 dispatch to it at `/.well-known/agent.json` + `/openapi.json`.
 
 ## Why mock-first
@@ -61,4 +61,4 @@ Standard Next.js app targeting Vercel. `vercel.json` bumps
 `maxDuration` to 30s on the tool routes so the confirmation-gate
 round-trip has headroom for real OpenTable latency when the live
 client lands. Match the Flight Agent's deploy posture — one project
-per agent, pinned to the git-SHA `@lumo/agent-sdk` dep.
+per agent, pinned to the git-SHA `@orchet/agent-sdk` dep.

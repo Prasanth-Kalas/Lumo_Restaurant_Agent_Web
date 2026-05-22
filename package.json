@@ -2,7 +2,7 @@
   "name": "@lumo/restaurant-agent",
   "version": "0.1.0",
   "private": true,
-  "description": "Lumo Restaurant Agent — OpenTable-style reservation search, availability, and book. Mock-first; swap to the real partner API once affiliate approval lands. Speaks the @lumo/agent-sdk contract so the Lumo shell can discover and dispatch to it.",
+  "description": "Lumo Restaurant Agent \u2014 OpenTable-style reservation search, availability, and book. Mock-first; swap to the real partner API once affiliate approval lands. Speaks the @lumo/agent-sdk contract so the Lumo shell can discover and dispatch to it.",
   "scripts": {
     "dev": "next dev -p 3003",
     "build": "next build",
@@ -10,16 +10,18 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "smoke": "tsx scripts/smoke.ts",
-    "clean": "rm -rf .next *.tsbuildinfo"
+    "clean": "rm -rf .next *.tsbuildinfo",
+    "validate": "orchet-agent validate"
   },
   "dependencies": {
-    "@lumo/agent-sdk": "git+https://github.com/Prasanth-Kalas/Lumo_Agent_SDK.git#cc90f7e5e2ba08729e1bff65e12d31b7b5f356b1",
+    "@orchet/agent-sdk": "^0.6.0",
     "next": "14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zod": "^3.23.0"
   },
   "devDependencies": {
+    "@orchet/agent-cli": "^0.1.2",
     "@types/node": "^20.12.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

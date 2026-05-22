@@ -24,7 +24,7 @@ export default function Page() {
           <code>GET /.well-known/agent.json</code> — manifest
         </li>
         <li>
-          <code>GET /openapi.json</code> — OpenAPI 3.1 spec with x-lumo-* extensions
+          <code>GET /openapi.json</code> — OpenAPI 3.1 spec with x-orchet-* extensions
         </li>
         <li>
           <code>GET /api/health</code> — liveness &amp; readiness
